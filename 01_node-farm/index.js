@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const url = require('url');
+const slugify = require('slugify');
 
 const replaceTemplate = require('./modules/replaceTemplate');
 
@@ -21,6 +22,10 @@ const templateProduct = fs.readFileSync(
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
+const dataObjSlug = dataObj.map(product => {
+  product.slug = slugify(product.productName, { lower: true });
+  return product;
+});
 
 const server = http.createServer((req, res) => {
   const { pathname, query } = url.parse(req.url, true);
@@ -29,7 +34,7 @@ const server = http.createServer((req, res) => {
   if (pathname === '/' || pathname === '/overview') {
     res.writeHead('200', { 'Content-type': 'text/html' });
 
-    const cardsHtml = dataObj
+    const cardsHtml = dataObjSlug
       .map(product => replaceTemplate(templateCard, product))
       .join('');
     const output = templateOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
@@ -38,7 +43,7 @@ const server = http.createServer((req, res) => {
     // Prodcut page
   } else if (pathname === '/product') {
     res.writeHead('200', { 'Content-type': 'text/html' });
-    const product = dataObj[query.id];
+    const product = dataObj.filter(el => el.slug == query.title)[0];
     const output = replaceTemplate(templateProduct, product);
     res.end(output);
 
