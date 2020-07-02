@@ -1,6 +1,7 @@
 {
-  "name": "Test Tour",
-  "duration": 10,
+  "name": "The Snow Adventurer",
+  "duration": 5,
   "difficulty": "easy",
-  "price": 100
+  "price": 697,
+  "rating": 4.8
 }
