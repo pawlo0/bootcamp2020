@@ -1,10 +1,11 @@
 {
-  "name": "Test tour",
+  "name": "secret tour",
   "duration": 5,
   "difficulty": "easy",
   "price": 697,
   "rating": 4.8,
   "maxGroupSize": 1,
   "summary": "test",
-  "imageCover": "test"
+  "imageCover": "test",
+  "secretTour": true
 }
